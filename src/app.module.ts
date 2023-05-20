@@ -1,12 +1,11 @@
 import { Module } from '@nestjs/common';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import * as dotenv from 'dotenv';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { EmailAccountModule } from './modules/email-account/email-account.module';
-import { EmailModule } from './modules/email/email.module';
-import { TypeOrmModule } from '@nestjs/typeorm';
 import { EmailAccount } from './modules/email-account/entities/email-account.entity';
-import * as dotenv from 'dotenv';
-
+import { EmailModule } from './modules/email/email.module';
 dotenv.config();
 @Module({
   imports: [
@@ -20,7 +19,7 @@ dotenv.config();
       password: process.env.POSTGRES_PASSWORD, // Database password
       database: process.env.POSTGRES_DB, // Database name
       entities: [EmailAccount], // Array of entity classes
-      synchronize: true, // Automatically creates database tables (for development)
+      synchronize: process.env.NODE_ENV !== 'production', // Automatically creates database tables (for development)
       logging: true, // Enable SQL query logging (for development)
     }),
   ],
