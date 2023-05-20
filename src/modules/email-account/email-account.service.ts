@@ -34,7 +34,7 @@ export class EmailAccountService {
     return await this.emailAccountRepository.find();
   }
 
-  async verify(emailAccountData: EmailAccountDto): Promise<EmailAccountDto> {
+  async verify(emailAccountData: EmailAccountDto): Promise<void> {
     try {
       await this.emailService.sendVerificationEmail(
         emailAccountData.smtpHost,
@@ -46,12 +46,13 @@ export class EmailAccountService {
       );
       // save the data of host, port, username, password as a hash value for the user in redis
     } catch (error) {
+      this.logger.error(`verify: ${JSON.stringify(error.message)}`);
       throw HttpException.createBody({
         statusCode: HttpStatus.BAD_REQUEST,
         message: error.message,
       });
     }
-    return emailAccountData;
+    return;
   }
 
   async send(sendEmailData: SendEmailDto): Promise<SendEmailDto> {

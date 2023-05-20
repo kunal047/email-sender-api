@@ -31,7 +31,6 @@ export class EmailService {
     try {
       await transporter.sendMail(mailOptions);
     } catch (error) {
-      console.error(error);
       throw error;
     }
   }

@@ -38,11 +38,13 @@ export class EmailAccountController {
   async verify(
     @Body() emailAccountData: EmailAccountDto,
   ): Promise<APIResponseType> {
-    const emailAccount = this.emailAccountService.verify(emailAccountData);
+    this.logger.log(
+      `Verify email account: ${JSON.stringify(emailAccountData)}`,
+    );
+    await this.emailAccountService.verify(emailAccountData);
     return {
       statusCode: 200,
       message: 'Email account verified successfully',
-      data: emailAccount,
     };
   }
 
