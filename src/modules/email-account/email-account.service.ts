@@ -16,7 +16,7 @@ export class EmailAccountService {
     private emailService: EmailService,
   ) {}
 
-  async create(emailAccountData: EmailAccountDto): Promise<EmailAccountDto> {
+  async create(emailAccountData: EmailAccountDto): Promise<void> {
     try {
       const count = await this.emailAccountRepository.count();
       const userId = count + 1;
@@ -26,8 +26,11 @@ export class EmailAccountService {
       });
     } catch (error) {
       this.logger.error(`create: ${JSON.stringify(error.message)}`);
+      throw HttpException.createBody({
+        statusCode: HttpStatus.BAD_REQUEST,
+        message: error.message,
+      });
     }
-    return emailAccountData;
   }
 
   async findAll(): Promise<EmailAccount[]> {

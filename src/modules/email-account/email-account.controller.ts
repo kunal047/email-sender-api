@@ -16,11 +16,10 @@ export class EmailAccountController {
   ): Promise<APIResponseType> {
     this.logger.log(`create: ${JSON.stringify(emailAccountData)}`);
     await this.emailAccountService.verify(emailAccountData);
-    const emailAccount = this.emailAccountService.create(emailAccountData);
+    await this.emailAccountService.create(emailAccountData);
     return {
       statusCode: 200,
       message: 'Email account created successfully',
-      data: emailAccount,
     };
   }
 
