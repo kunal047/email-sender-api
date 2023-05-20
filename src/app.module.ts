@@ -19,7 +19,7 @@ dotenv.config();
       password: process.env.POSTGRES_PASSWORD, // Database password
       database: process.env.POSTGRES_DB, // Database name
       entities: [EmailAccount], // Array of entity classes
-      synchronize: process.env.NODE_ENV !== 'production', // Automatically creates database tables (for development)
+      synchronize: true,
       logging: true, // Enable SQL query logging (for development)
     }),
   ],
